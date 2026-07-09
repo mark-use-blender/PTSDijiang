@@ -2,12 +2,14 @@ import * as proto from "./protodef";
 
 export abstract class Operators implements  proto.OperatorCL {
     abstract OperaterStats: proto.OperatorInt    
+    abstract name: string 
     abstract initArray(tl: proto.Timeline): void;
 }
 
 
 export class Leavatain extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "Leavatain" 
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -21,6 +23,7 @@ export class Leavatain extends Operators {
 
 export class Camille  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "Camille"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -34,6 +37,7 @@ export class Camille  extends Operators {
 
 export class MiFu  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "MiFu"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -46,6 +50,7 @@ export class MiFu  extends Operators {
 
 export class Endmin  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "Endmin"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -58,6 +63,7 @@ export class Endmin  extends Operators {
 
 export class LiFeng  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "LiFeng"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -70,6 +76,7 @@ export class LiFeng  extends Operators {
 
 export class Rossi  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "Rossi"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -82,6 +89,7 @@ export class Rossi  extends Operators {
 
 export class Ember  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "Ember"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -94,6 +102,7 @@ export class Ember  extends Operators {
 
 export class Gilberta  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "Gilberta"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -106,6 +115,7 @@ export class Gilberta  extends Operators {
 
 export class Ardelia  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "Ardelia"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -118,6 +128,7 @@ export class Ardelia  extends Operators {
 
 export class TangTang  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "TangTang"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -131,6 +142,7 @@ export class TangTang  extends Operators {
 
 export class Pog  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "Pog"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -144,6 +156,7 @@ export class Pog  extends Operators {
 
 export class LastRite  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "LastRite"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -156,6 +169,7 @@ export class LastRite  extends Operators {
 
 export class ZhuangFangYi  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "ZhuangFangYi"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -168,6 +182,7 @@ export class ZhuangFangYi  extends Operators {
 
 export class ChenQianYu  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "ChenQianYu"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -180,6 +195,7 @@ export class ChenQianYu  extends Operators {
 
 export class SnowShine  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "SnowShine"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -192,6 +208,7 @@ export class SnowShine  extends Operators {
 
 export class XaiHi  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "XaiHi"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -204,6 +221,7 @@ export class XaiHi  extends Operators {
 
 export class Perlica  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "Perlica"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -216,6 +234,7 @@ export class Perlica  extends Operators {
 
 export class WulfGard  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "WulfGard"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -228,6 +247,7 @@ export class WulfGard  extends Operators {
 
 export class ArcLight  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "ArcLight"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -240,6 +260,7 @@ export class ArcLight  extends Operators {
 
 export class Alesh  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "Alesh"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -252,6 +273,7 @@ export class Alesh  extends Operators {
 
 export class Avywenna  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "Avywenna"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -264,6 +286,7 @@ export class Avywenna  extends Operators {
 
 export class DaPan  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "DaPan"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -276,6 +299,7 @@ export class DaPan  extends Operators {
 
 export class Eatella  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "Eatella"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -288,6 +312,7 @@ export class Eatella  extends Operators {
 
 export class Catcher  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "Catcher"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -300,6 +325,7 @@ export class Catcher  extends Operators {
 
 export class Antal  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "Antal"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -312,6 +338,7 @@ export class Antal  extends Operators {
 
 export class Fluorite  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "Fluorite"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
@@ -324,6 +351,7 @@ export class Fluorite  extends Operators {
 
 export class Akekuri  extends Operators {
     OperaterStats: proto.OperatorInt
+    name= "Akekuri"
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
