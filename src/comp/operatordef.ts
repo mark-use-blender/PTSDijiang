@@ -1,8 +1,14 @@
 import * as proto from "./protodef";
+import * as wepondef from "./wepondef";
+import * as geardef from "./geardef";
 
 export abstract class Operators implements  proto.OperatorCL {
     abstract OperaterStats: proto.OperatorInt    
+    abstract Attribute:{"Strength":number,"Agility":number,"Intellect":number,"Will":number};
+    abstract Stats:{"HP":number,"Attack":number,"Defence":number};
     abstract name: string 
+    abstract wepon: proto.WeponCL;
+    abstract gearskill: proto.GeareffectCL;
     abstract initArray(tl: proto.Timeline): void;
 }
 
@@ -105,16 +111,17 @@ export class Leavatain extends Operators {
         10,15,20
     ]
     talent02lookup=[
-        4,8
+        0,4,8
     ]
-    //                  1	2	3	4	5	6	7	8	9	M1	M2	M3
-    // 普攻第一段倍率	16%	18%	19%	21%	22%	24%	26%	27%	29%	31%	33%	36%
-    // 普攻第二段倍率	24%	26%	29%	31%	34%	36%	38%	41%	43%	46%	50%	54%
-    // 普攻第三段倍率	25%	28%	30%	33%	35%	38%	40%	43%	45%	48%	52%	56%
-    // 普攻第四段倍率	39%	43%	47%	51%	55%	59%	62%	66%	70%	75%	81%	88%
-    // 普攻第五段倍率	53%	58%	64%	69%	74%	80%	85%	90%	95%	102%110%119%
-    // 處決攻擊倍率	    400%440%480%520%560%600%640%680%720%770%830%900%
-    // 下墜攻擊倍率	    80%	88%	96%	104%112%120%128%136%144%154%166%180%
+    /*                  1	2	3	4	5	6	7	8	9	M1	M2	M3
+       普攻第一段倍率	16%	18%	19%	21%	22%	24%	26%	27%	29%	31%	33%	36%
+       普攻第二段倍率	24%	26%	29%	31%	34%	36%	38%	41%	43%	46%	50%	54%
+       普攻第三段倍率	25%	28%	30%	33%	35%	38%	40%	43%	45%	48%	52%	56%
+       普攻第四段倍率	39%	43%	47%	51%	55%	59%	62%	66%	70%	75%	81%	88%
+       普攻第五段倍率	53%	58%	64%	69%	74%	80%	85%	90%	95%	102%110%119%
+       處決攻擊倍率	    400%440%480%520%560%600%640%680%720%770%830%900%
+       下墜攻擊倍率	    80%	88%	96%	104%112%120%128%136%144%154%166%180%
+    */
     normalattacklookup=[
         [0.16,0.24,0.25,0.39,0.53,4.0,0.8],//1
         [0.18,0.26,0.28,0.43,0.58,4.4,0.88],//2
@@ -129,21 +136,22 @@ export class Leavatain extends Operators {
         [0.33,0.50,0.52,0.81,1.10,8.3,1.66],//M2
         [0.36,0.54,0.56,0.88,1.19,9.0,1.80]//M3
     ]
-    //                      	1	2	3	4	5	6	7	8	9	M1	M2	M3
-    // 初始爆炸傷害倍率	        62%	68%	75%	81%	87%	93%	99%	106%112%120%129%140%
-    // 初始爆炸失衡值	        10	10	10	10	10	10	10	10	10	10	10	10
-    // 持續傷害每段倍率	        6%	7%	8%	8%	9%	9%	10%	11%	11%	12%	13%	14%
-    // 追加傷害倍率	            342%376%410%445%479%513%547%581%616%658%710%770%
-    // 追加失衡值	            10	10	10	10	10	10	10	10	10	10	10	10
-    // 燃燒時長（秒）	        5	5	5	5	5	5	5	5	5	5	5	5
-    // 追加攻擊獲得終結技能量	100	100	100	100	100	100	100	100	100	100	100	100
-    // 終結技期間第一段倍率	    147%161%176%191%205%220%235%249%264%282%304%330%
-    // 終結技期間第一段失衡值	10	10	10	10	10	10	10	10	10	10	10	10
-    // 終結技期間第二段倍率	    164%181%197%214%230%247%263%279%296%316%341%370%
-    // 終結技期間第二段失衡值	10	10	10	10	10	10	10	10	10	10	10	10
-    // 終結技期間追加攻擊倍率	400%440%480%520%560%600%640%680%720%770%830%900%
-    // 終結技期間追加攻擊失衡值	10	10	10	10	10	10	10	10	10	10	10	10
-    // 終結技期間燃燒時長（秒）	5	5	5	5	5	5	5	5	5	5	5	5
+    /*                      	1	2	3	4	5	6	7	8	9	M1	M2	M3
+       初始爆炸傷害倍率	        62%	68%	75%	81%	87%	93%	99%	106%112%120%129%140%
+       初始爆炸失衡值	        10	10	10	10	10	10	10	10	10	10	10	10
+       持續傷害每段倍率	        6%	7%	8%	8%	9%	9%	10%	11%	11%	12%	13%	14%
+       追加傷害倍率	            342%376%410%445%479%513%547%581%616%658%710%770%
+       追加失衡值	            10	10	10	10	10	10	10	10	10	10	10	10
+       燃燒時長（秒）	        5	5	5	5	5	5	5	5	5	5	5	5
+       追加攻擊獲得終結技能量	100	100	100	100	100	100	100	100	100	100	100	100
+       終結技期間第一段倍率	    147%161%176%191%205%220%235%249%264%282%304%330%
+       終結技期間第一段失衡值	10	10	10	10	10	10	10	10	10	10	10	10
+       終結技期間第二段倍率	    164%181%197%214%230%247%263%279%296%316%341%370%
+       終結技期間第二段失衡值	10	10	10	10	10	10	10	10	10	10	10	10
+       終結技期間追加攻擊倍率	400%440%480%520%560%600%640%680%720%770%830%900%
+       終結技期間追加攻擊失衡值	10	10	10	10	10	10	10	10	10	10	10	10
+       終結技期間燃燒時長（秒）	5	5	5	5	5	5	5	5	5	5	5	5
+    */
     battleskilllookup=[
         [0.62,10,0.06,3.42,10,5,100,1.47,10,1.64,10,4.0,10,5],//1
         [0.68,10,0.07,3.76,10,5,100,1.61,10,1.81,10,4.4,10,5],//2
@@ -158,13 +166,14 @@ export class Leavatain extends Operators {
         [1.29,10,0.13,7.10,10,5,100,3.04,10,3.41,10,8.3,10,5],//M2
         [1.40,10,0.14,7.70,10,5,100,3.30,10,3.70,10,9.0,10,5]//M3
     ]
-    //     	                            1	2	3	4	5	6	7	8	9	M1	M2	M3
-    // 冷卻時間	                        10s	10s	10s	10s	10s	10s	10s	10s	10s	10s	10s	9s
-    // 傷害倍率	                        240%264%288%312%336%360%384%408%432%462%498%540%
-    // 失衡值	                        10	10	10	10	10	10	10	10	10	10	10	10
-    // 命中1個敵人獲得終結技能量        25	25	25	25	25	25	25	25	25	25	25	25
-    // 命中2個敵人獲得終結技能量	    30	30	30	30	30	30	30	30	30	30	30	30
-    // 命中3個或以上敵人獲得終結技能量	35	35	35	35	35	35	35	35	35	35	35	35
+    /*     	                            1	2	3	4	5	6	7	8	9	M1	M2	M3
+       冷卻時間	                        10s	10s	10s	10s	10s	10s	10s	10s	10s	10s	10s	9s
+       傷害倍率	                        240%264%288%312%336%360%384%408%432%462%498%540%
+       失衡值	                        10	10	10	10	10	10	10	10	10	10	10	10
+       命中1個敵人獲得終結技能量        25	25	25	25	25	25	25	25	25	25	25	25
+       命中2個敵人獲得終結技能量	    30	30	30	30	30	30	30	30	30	30	30	30
+       命中3個或以上敵人獲得終結技能量	35	35	35	35	35	35	35	35	35	35	35	35
+    */
     comboskilllookup=[
         [10,2.40,10,25,30,35],//1
         [10,2.64,10,25,30,35],//2
@@ -179,13 +188,14 @@ export class Leavatain extends Operators {
         [10,4.98,10,25,30,35],//M2
         [10,5.40,10,25,30,35]//M3
     ]
-    //                      1	2	3	4	5	6	7	8	9	M1	M2	M3
-    // 所需終結技能量	    300	300	300	300	300	300	300	300	300	300	300	300
-    // 持續時間（秒）	    15	15	15	15	15	15	15	15	15	15	15	15
-    // 強化普攻第一段倍率	65%	71%	78%	84%	91%	97%	104%110%117%125%134%146%
-    // 強化普攻第二段倍率	81%	89%	97%	105%113%122%130%138%146%156%168%182%
-    // 強化普攻第三段倍率	115%127%139%150%162%173%185%196%208%222%240%260%
-    // 強化普攻第四段倍率	203%223%243%263%284%304%324%344%365%390%420%456%
+    /*                      1	2	3	4	5	6	7	8	9	M1	M2	M3
+     所需終結技能量	    300	300	300	300	300	300	300	300	300	300	300	300
+     持續時間（秒）	    15	15	15	15	15	15	15	15	15	15	15	15
+     強化普攻第一段倍率	65%	71%	78%	84%	91%	97%	104%110%117%125%134%146%
+     強化普攻第二段倍率	81%	89%	97%	105%113%122%130%138%146%156%168%182%
+     強化普攻第三段倍率	115%127%139%150%162%173%185%196%208%222%240%260%
+     強化普攻第四段倍率	203%223%243%263%284%304%324%344%365%390%420%456%
+    */
     ultimatumlookup=[
         [300,15,0.65,0.81,1.15,2.03],//1
         [300,15,0.71,0.89,1.27,2.23],//2
@@ -200,21 +210,78 @@ export class Leavatain extends Operators {
         [300,15,1.34,1.68,2.40,4.20],//M2
         [300,15,1.46,1.82,2.60,4.56]//M3
     ]
-
+    Attribute:{"Strength":number,"Agility":number,"Intellect":number,"Will":number};
+    Stats:{"HP":number,"Attack":number,"Defence":number};
+    wepon: proto.WeponCL;
+    gearskill: proto.GeareffectCL;
+    talent1: number = 0
+    talent2: number = 0
+    normalattackstat=[0.16,0.24,0.25,0.39,0.53,4.0,0.8]
+    battleskillstat=[0.62,10,0.06,3.42,10,5,100,1.47,10,1.64,10,4.0,10,5]
+    comboskillstat=[10,2.40,10,25,30,35]
+    ultimatumstat=[300,15,0.65,0.81,1.15,2.03]
 
     name= "Leavatain" 
     constructor(stat:proto.OperatorInt){
         super();
         this.OperaterStats = stat
-    }
+        this.Attribute = {"Strength":this.levellookup[this.OperaterStats.Level-1][0],
+                         "Agility":this.levellookup[this.OperaterStats.Level-1][1],
+                         "Intellect":this.levellookup[this.OperaterStats.Level-1][2],
+                         "Will":this.levellookup[this.OperaterStats.Level-1][3]
+                        }
+        this.Stats = {"HP":this.levellookup[this.OperaterStats.Level-1][5],
+                      "Attack":this.levellookup[this.OperaterStats.Level-1][4],
+                      "Defence":140
+                     };
+        this.talent1 = this.talent01lookup[this.OperaterStats.Talent1];
+        this.talent2 = this.talent02lookup[this.OperaterStats.Talent2];
+        this.normalattackstat = this.normalattacklookup[this.OperaterStats.BasicAttackRank];
+        this.battleskillstat = this.battleskilllookup[this.OperaterStats.BattleSkillRank];
+        this.comboskillstat = this.comboskilllookup[this.OperaterStats.ComboSkillRank];
+        this.ultimatumstat = this.ultimatumlookup[this.OperaterStats.UltimateRank];
+        this.potentialpreprocess();
+        const WeponClass = wepondef.WeponDef(this.OperaterStats.Wepon);
+        this.wepon = new WeponClass(this.OperaterStats.WeponStats);
+        const GearClass = geardef.GearDef(this.OperaterStats.Geareffect);
+        this.gearskill = new GearClass(this.name);
+        //apply gear stats
+        this.wepon.applyweponstats(this.Attribute,this.Stats)
 
+
+
+    }
+    potentialpreprocess(): void{
+        if (this.OperaterStats.PotentialPhase>0){
+            this.battleskillstat[3] =  this.battleskillstat[3] *1.2;
+            this.battleskillstat[11] =  this.battleskillstat[11] *1.2;
+        }
+        if (this.OperaterStats.PotentialPhase>1){
+            this.Attribute["Intellect"] =  this.Attribute["Intellect"]+20;
+            this.normalattackstat = this.normalattackstat.map(x => x +0.15);
+        }
+        if (this.OperaterStats.PotentialPhase>2){
+            this.battleskillstat[2] =  this.battleskillstat[2] *1.5;
+            this.battleskillstat[5] =  this.battleskillstat[5] *1.5;
+            this.battleskillstat[13] =  this.battleskillstat[13] *1.5;
+        }
+        if (this.OperaterStats.PotentialPhase>3){
+            this.ultimatumstat[0] =  this.ultimatumstat[0] *0.75;
+        }
+        if (this.OperaterStats.PotentialPhase>4){
+            this.ultimatumstat[2] =  this.ultimatumstat[2] *1.2;
+            this.ultimatumstat[3] =  this.ultimatumstat[3] *1.2;
+            this.ultimatumstat[4] =  this.ultimatumstat[4] *1.2;
+            this.ultimatumstat[5] =  this.ultimatumstat[5] *1.2;
+        }
+    }
     initArray(tl: proto.Timeline): void{
 
     }
 }
 
 
-
+/* 
 export class Camille  extends Operators {
     OperaterStats: proto.OperatorInt
     name= "Camille"
@@ -333,7 +400,6 @@ export class TangTang  extends Operators {
     }
 }
 
-
 export class Pog  extends Operators {
     OperaterStats: proto.OperatorInt
     name= "Pog"
@@ -346,7 +412,6 @@ export class Pog  extends Operators {
         
     }
 }
-
 
 export class LastRite  extends Operators {
     OperaterStats: proto.OperatorInt
@@ -555,11 +620,12 @@ export class Akekuri  extends Operators {
         
     }
 }
-
-type OperatorConstructor = new (stat: proto.OperatorInt) => Operators;
+*/
+export type OperatorConstructor = new (stat: proto.OperatorInt) => Operators;
 
 const oparr: Record<string, OperatorConstructor> = {
     "Leavatain": Leavatain,
+    /*
     "MiFu": MiFu,
     "Endmin": Endmin,
     "LiFeng": LiFeng,
@@ -586,9 +652,10 @@ const oparr: Record<string, OperatorConstructor> = {
     "Fluorite": Fluorite,
     "Akekuri": Akekuri,
     "Camille": Camille
+    */
 };
 
-export function OperatorDef(op: string): OperatorConstructor | undefined {
+export function OperatorDef(op: string): OperatorConstructor{
     return oparr[op];
 }
 

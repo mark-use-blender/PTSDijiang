@@ -47,7 +47,7 @@ export type TriggerType =
 "ConsumeCombustion"|                        //42
 "GainElectricAmp"|                          //43
 "GainLink"|                                 //44
-"RecoverSP"|
+"RecoverSP"|                                //45
 string; 
 
 export type StatusType =
@@ -68,8 +68,16 @@ export type BuffType =
 "HeatSusceptibility"|           //1
 "ElectricSusceptibility"|       //2
 "CryoSusceptibility"|           //3
-"NatureSusceptibility"|
-string;         //4
+"NatureSusceptibility"|         //4
+string;
+export type MoveType =
+"NO"|       //normal attack
+"BS"|       //basic skill
+"CS"|       //combo skill
+"UL"|       //ultimate
+"OT"|       //other
+string;
+export type TaticPack = [0|1|2|3,MoveType];
 export type CalculationTick = (tl:Timeline,of:number) => void;
 export type ActionTick = (tl:Timeline,of:number) => void;
 export type DamageTick = (tl:Timeline,of:number) => void;
@@ -79,8 +87,10 @@ export type StateMachine = number;
 export type Potential = 0|1|2|3|4|5;
 export type Rank = 0|1|2|3|4|5|6|7|8|9|10|11|12;
 export type Stat = 0|1|2|3|4|5|6|7|8|9;
+export type artifact = 0|1|2|3;
 
 export interface Timeline{
+    Tatic: TaticPack[];
     StatusArr: {[key:StatusType]:StatusLevel[]};
     BuffArr: {[key:BuffType]:BuffLevel[]};
     StateMachineArr: { [key: string]: StateMachine[] };
@@ -102,35 +112,54 @@ export interface WeponInt {
 }
 
 
-export abstract class WeponCL {
+export interface WeponCL {
     WeponStats:WeponInt;
+    Host:string;
 
-    constructor(stat:WeponInt){
-        this.WeponStats = stat
-    }
-
+    initArray(tl:Timeline):void;
+    applyweponstats(
+        Attribute:{"Strength":number,"Agility":number,"Intellect":number,"Will":number}, 
+        Stats:{"HP":number,"Attack":number,"Defence":number}
+    ):void;
 }
 
 
 export interface GearInt {
-    Host:OperatorCL
+    gearname: string;
+    gearStats: [artifact,artifact,artifact];
 
 
 }
 
 
-export abstract class GearCL {
-    GearStats:GearInt;
+export interface GearCL {
+    gear: GearInt;
 
-    constructor(stat:GearInt){
-        this.GearStats = stat
-    }
+    initArray(tl:Timeline):void;
+
+
+}
+
+
+
+
+export interface GeareffectCL {
+    Host:string
+
+    initArray(tl:Timeline):void;
+
 
 }
 
 export interface OperatorInt {
     IsControll: boolean;
-    Wepon: WeponCL;
+    Wepon: string;
+    WeponStats: WeponInt;
+    Geareffect: string;
+    armour: GearInt;
+    glove: GearInt;
+    kit1: GearInt;
+    kit2: GearInt;
 
     PotentialPhase: Potential;
     Level: number;
@@ -142,13 +171,17 @@ export interface OperatorInt {
     BattleSkillRank: Rank;
     ComboSkillRank:  Rank;
     UltimateRank:    Rank;
-    Attribute:{"Stringth":number,"Agility":number,"Inteliect":number,"Will":number};
-    Stats:{"HP":number,"Attack":number,"Defence":number};
+
 }
 
 export interface OperatorCL {
     OperaterStats:OperatorInt;
+    Attribute:{"Strength":number,"Agility":number,"Intellect":number,"Will":number};
+    Stats:{"HP":number,"Attack":number,"Defence":number};
+    wepon: WeponCL;
+    gearskill: GeareffectCL;
     name: string;
     initArray(tl:Timeline):void;
+    tatic(action: TaticPack, offset: number, tl: Timeline): void;
 }
 

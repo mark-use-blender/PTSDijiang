@@ -2,23 +2,23 @@ import * as proto from "./protodef";
 import type {TriggerPacketLib,BuffLevel} from "./protodef";
 
 
-export abstract class Gear implements  proto.GearCL {
-    abstract GearStats: proto.GearInt    
+export abstract class Gear implements  proto.GeareffectCL {
+    abstract Host: string
     abstract initArray(tl: proto.Timeline): void;
 }
 
 class GrizzledEdge  extends Gear {
-    GearStats: proto.GearInt
-    constructor(stat:proto.GearInt){
+    Host: string
+    constructor(host: string){
         super();
-        this.GearStats = stat
+        this.Host = host
     }
     initArray(tl: proto.Timeline): void{
         let bufflevel: BuffLevel[] = []
-        tl["BuffArr"][(this.GearStats.Host.name+"PhysicalDMGDealt"+"GrizzledEdge")] = bufflevel;
+        tl["BuffArr"][(this.Host+"PhysicalDMGDealt"+"GrizzledEdge")] = bufflevel;
     }
     tick(tl: proto.Timeline,offset:number): void{
-        let curr = tl["TriggerPacketArr"][this.GearStats.Host.name][offset]
+        let curr = tl["TriggerPacketArr"][this.Host][offset]
         let buff = 0;
 
         if ("ApplyCrush" in curr && curr["ApplyCrush"] > 0) {
@@ -37,12 +37,12 @@ class GrizzledEdge  extends Gear {
             }else if(tl["StateMachineArr"]["OriginiumCrystals"][offset] > 0){
                 buff *= 1.5;
             }
-            let bufflevel: BuffLevel[] = tl["BuffArr"][(this.GearStats.Host.name+"PhysicalDMGDealt"+"GrizzledEdge")]
+            let bufflevel: BuffLevel[] = tl["BuffArr"][(this.Host+"PhysicalDMGDealt"+"GrizzledEdge")]
 
             for (let i = 0;i<(20*proto.StepMultiplier);i++){
                 bufflevel[i+offset] = buff;
             }
-            tl["BuffArr"][(this.GearStats.Host.name+"PhysicalDMGDealt"+"GrizzledEdge")]=bufflevel;
+            tl["BuffArr"][(this.Host+"PhysicalDMGDealt"+"GrizzledEdge")]=bufflevel;
 
         }
 
@@ -50,18 +50,18 @@ class GrizzledEdge  extends Gear {
 }
 
 class Xiranflow  extends Gear {
-    GearStats: proto.GearInt
-    constructor(stat:proto.GearInt){
+    Host: string
+    constructor(host: string){
         super();
-        this.GearStats = stat
+        this.Host = host
     }
     initArray(tl: proto.Timeline): void{
         let bufflevel: BuffLevel[] = []
-        tl["BuffArr"][(this.GearStats.Host.name+"ElectricDMGDealt"+"Xiranflow")] = bufflevel;
-        tl["BuffArr"][(this.GearStats.Host.name+"NatureDMGDealt"+"Xiranflow")] = bufflevel;
+        tl["BuffArr"][(this.Host+"ElectricDMGDealt"+"Xiranflow")] = bufflevel;
+        tl["BuffArr"][(this.Host+"NatureDMGDealt"+"Xiranflow")] = bufflevel;
     }
     tick(tl: proto.Timeline,offset:number): void{
-        let curr = tl["TriggerPacketArr"][this.GearStats.Host.name][offset]
+        let curr = tl["TriggerPacketArr"][this.Host][offset]
         let buff = 0;
 
         if ("ConsumeElectrification" in curr && curr["ConsumeElectrification"] > 0) {
@@ -73,16 +73,16 @@ class Xiranflow  extends Gear {
         }
 
         if (buff > 0) {
-           
-            let bufflevelc: BuffLevel[] = tl["BuffArr"][(this.GearStats.Host.name+"ElectricDMGDealt"+"Xiranflow")]
-            let buffleveln: BuffLevel[] = tl["BuffArr"][(this.GearStats.Host.name+"NatureDMGDealt"+"Xiranflow")]
+
+            let bufflevelc: BuffLevel[] = tl["BuffArr"][(this.Host+"ElectricDMGDealt"+"Xiranflow")]
+            let buffleveln: BuffLevel[] = tl["BuffArr"][(this.Host+"NatureDMGDealt"+"Xiranflow")]
 
             for (let i = 0;i<(25*proto.StepMultiplier);i++){
                 bufflevelc[i+offset] = Math.min(bufflevelc[i+offset]+buff,0.45);
                 buffleveln[i+offset] = Math.min(buffleveln[i+offset]+buff,0.45);
             }
-            tl["BuffArr"][(this.GearStats.Host.name+"NatureDMGDealt"+"Xiranflow")]=buffleveln;
-            tl["BuffArr"][(this.GearStats.Host.name+"ElectricDMGDealt"+"Xiranflow")]=bufflevelc;
+            tl["BuffArr"][(this.Host+"NatureDMGDealt"+"Xiranflow")]=buffleveln;
+            tl["BuffArr"][(this.Host+"ElectricDMGDealt"+"Xiranflow")]=bufflevelc;
 
         }
 
@@ -92,17 +92,17 @@ class Xiranflow  extends Gear {
 
 
 class Qingbo  extends Gear {
-    GearStats: proto.GearInt
-    constructor(stat:proto.GearInt){
+    Host: string;
+    constructor(host: string){
         super();
-        this.GearStats = stat
+        this.Host = host;
     }
     initArray(tl: proto.Timeline): void{
         let bufflevel: BuffLevel[] = []
-        tl["BuffArr"][(this.GearStats.Host.name+"SkillDMGDealt"+"Qingbo")] = bufflevel;
+        tl["BuffArr"][(this.Host+"SkillDMGDealt"+"Qingbo")] = bufflevel;
     }
     tick(tl: proto.Timeline,offset:number): void{
-        let curr = tl["TriggerPacketArr"][this.GearStats.Host.name][offset]
+        let curr = tl["TriggerPacketArr"][this.Host][offset]
         let buff = 0;
 
         if ("Skill:ComboSkills" in curr) {
@@ -113,12 +113,12 @@ class Qingbo  extends Gear {
 
         if (buff > 0) {
 
-            let bufflevel: BuffLevel[] = tl["BuffArr"][(this.GearStats.Host.name+"SkillDMGDealt"+"Qingbo")]
+            let bufflevel: BuffLevel[] = tl["BuffArr"][(this.Host+"SkillDMGDealt"+"Qingbo")]
 
             for (let i = 0;i<(15*proto.StepMultiplier);i++){
                 bufflevel[i+offset] = Math.min(bufflevel[i+offset]+buff,0.4);
             }
-            tl["BuffArr"][(this.GearStats.Host.name+"NatureDMGDealt"+"Qingbo")]=bufflevel;
+            tl["BuffArr"][(this.Host+"NatureDMGDealt"+"Qingbo")]=bufflevel;
 
         }
 
@@ -128,7 +128,7 @@ class Qingbo  extends Gear {
 
 
 
-type GearConstructor = new (stat: proto.GearInt) => Gear;
+type GearConstructor = new (host: string) => Gear;
 
 const geararr: Record<string, GearConstructor> = {
     "GrizzledEdge":GrizzledEdge,
@@ -136,6 +136,6 @@ const geararr: Record<string, GearConstructor> = {
     "Qingbo":Qingbo
 };
 
-export function OperatorDef(op: string): GearConstructor | undefined {
+export function GearDef(op: string): GearConstructor {
     return geararr[op];
 }
