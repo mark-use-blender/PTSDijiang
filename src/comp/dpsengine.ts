@@ -13,6 +13,9 @@ export function dpsengine(  teamconfig:string,
                             taticconfig:string,
                             initaltimeline?:proto.Timeline){
         var maintl:proto.Timeline = {
+                Team:[],
+                Error: [],
+                Tatic: [],
                 StatusArr: {},
                 BuffArr: {},
                 StateMachineArr: {},
@@ -26,6 +29,7 @@ export function dpsengine(  teamconfig:string,
         }
         var operatorArr: operatordef.Operators[] = [];
         operatorArr = decodeteamconfig(teamconfig);
+        maintl.Team = [...operatorArr.map(op => op.name)]
         decodetaticconfig(taticconfig,maintl);
         initArray(maintl);
         for (let i = 0; i < operatorArr.length; i++) {
@@ -33,13 +37,25 @@ export function dpsengine(  teamconfig:string,
         }
         for (let i = 0; i < maintl.Tatic.length; i++) {
             let offset = i;
-            let action = maintl.Tatic[i];
+            let action = maintl.Tatic[offset];
             if (action===undefined) {
 
             }
             else{
-                operatorArr[action[0]].tatic(action[1],i,maintl);
+                operatorArr[action[0]].tatic(action[1],offset,maintl);
             }
+        }
+        for (let i=0;i< Math.max(...Object.values(maintl.CalculationTickArr).map(arr => arr.length), 0) ;i++){
+            if (maintl.Error[i].includes("Error")){
+                console.log(maintl.Error[i])
+                break;
+            }
+            for (let j=0;j<maintl.Team.length;j++){
+                if (maintl.CalculationTickArr[maintl.Team[j]][i] !== undefined ){
+                    maintl.CalculationTickArr[maintl.Team[j]][i](maintl,i);
+                }
+            }
+        }
 
 }
 

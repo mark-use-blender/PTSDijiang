@@ -1,12 +1,13 @@
 export const StepMultiplier=10; 
+export const cobmowindow = 10;
 export type StatusLevel =  0|1|2|3|4;
 export type BuffLevel = number;
 export type TriggerType = 
 "BasicAttack"|                              //0
-"BasicAttack:FinalStrike"|                  //1
-"Skill:BattleSkills"|                       //2
-"Skill:ComboSkills"|                        //3
-"Skill:Ultimates"|                          //4
+"BasicAttackFinalStrike"|                  //1
+"SkillBattleSkills"|                       //2
+"SkillComboSkills"|                        //3
+"SkillUltimates"|                          //4
 "StaggerNode"|                              //5
 "Finisher"|                                 //6
 "ApplyVulnerable"|                          //7
@@ -90,6 +91,8 @@ export type Stat = 0|1|2|3|4|5|6|7|8|9;
 export type artifact = 0|1|2|3;
 
 export interface Timeline{
+    Team: string[];
+    Error: string[];
     Tatic: TaticPack[];
     StatusArr: {[key:StatusType]:StatusLevel[]};
     BuffArr: {[key:BuffType]:BuffLevel[]};
@@ -181,7 +184,9 @@ export interface OperatorCL {
     wepon: WeponCL;
     gearskill: GeareffectCL;
     name: string;
+    team: string[];
     initArray(tl:Timeline):void;
-    tatic(action: TaticPack, offset: number, tl: Timeline): void;
+    tatic(action: MoveType, offset: number, tl: Timeline): void;
+    tick(tl: Timeline, offset: number): void;
 }
 
